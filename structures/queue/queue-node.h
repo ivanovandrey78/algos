@@ -62,7 +62,7 @@ public:
     
     int GetSize() const { return size_; }
     
-    void Display() const {
+    void Print() const {
         Node* cur = front_;
         while (cur != nullptr) {
             std::cout << cur->data;
