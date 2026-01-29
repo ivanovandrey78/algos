@@ -1,22 +1,25 @@
-# Бинарные и исполняемые файлы
+# IDE folders
+.vscode/
+
+# Binary & executable files
 *.exe
 *.dll
 *.so
 *.dylib
 *.app
 
-# Папки сборки (и main.cpp)
+# Build folders
 build/
 bin/
 dist/
 out/
 target/
 
-# Системные файлы
+# System files
 .DS_Store
 Thumbs.db
 *.tmp
 *.temp
 
-# Логи
+# Logs
 *.log
