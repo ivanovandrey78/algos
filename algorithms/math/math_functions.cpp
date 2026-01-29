@@ -1,69 +1,11 @@
 #include "math_functions.h"
-#include <sstream> 
+
+namespace algs {
 
 namespace math {
 
-std::string angle_string(double angle_rad, double tolerance) {
-    double normalized = angle_rad;
-    while (normalized > PI) normalized -= 2 * PI;
-    while (normalized <= -PI) normalized += 2 * PI;
-
-    auto is_close = [tolerance](double a, double b) {
-        return abs(a - b) < tolerance;
-    };
-
-    // Особые случаи
-    if (is_close(normalized, 0.0)) return "0";
-    if (is_close(normalized, PI) || is_close(normalized, -PI)) 
-        return (normalized < 0) ? "-pi" : "pi";
-    if (is_close(normalized, PI/2) || is_close(normalized, -PI/2))
-        return (normalized < 0) ? "-pi/2" : "pi/2";
-
-
-    const int max_den = 12;
-    double ratio = normalized / PI;
-    int best_num = 0;
-    int best_den = 1;
-    double best_error = 1e9;
-
-    for (int den = 1; den <= max_den; ++den) {
-        int num = static_cast<int>(math::round(ratio * den));
-        double approx = static_cast<double>(num) / den;
-        double err = abs(approx - ratio);
-        if (err < best_error) {
-            best_error = err;
-            best_num = num;
-            best_den = den;
-        }
-    }
-
-    if (best_error < tolerance * 10) {
-        int g = gcd(abs(best_num), best_den);
-        best_num /= g;
-        best_den /= g;
-
-        std::ostringstream oss;
-        if (best_num < 0) oss << "-";
-
-        int abs_num = abs(best_num);
-        if (abs_num == 0) return "0";
-        if (abs_num == 1) oss << "pi";
-        else oss << abs_num << "pi";
-
-        if (best_den != 1)
-            oss << "/" << best_den;
-
-        return oss.str();
-    }
-
-    // Out in rad if string hasn't pi/n 
-    std::ostringstream stream;
-    stream.precision(6);
-    stream << std::fixed << angle_rad << " rad";
-    return stream.str();
-}
-
-double sqrt(double n,int maxIterations) {
+// Newton's approximation (recursion)
+double sqrtNewton(double n,int maxIterations) {
     if (n < 0) { std::cerr << "Number must be positive" << '\n'; return 1; }
     if (n == 1) return 1.0;
     if (n == 0) return 0.0;
@@ -76,10 +18,10 @@ double sqrt(double n,int maxIterations) {
         }
         d--;
         double derivative = 1.0/(2.0*d);
-        return d + (n - d*d)*derivative;
+        return d + (n - d * d) * derivative;
     }
 
-    double currentApprox = sqrt(n, maxIterations-1);
+    double currentApprox = sqrtNewton(n, maxIterations-1);
     
     double derivative = 1.0/(2.0*currentApprox);
     double result = currentApprox + (n - currentApprox*currentApprox)*derivative;
@@ -87,21 +29,19 @@ double sqrt(double n,int maxIterations) {
     return result;
 }
 
-int min(int a,int b) {
-    return (a <= b) ? a : b; 
-}
+// BinarySearch on real numbers
 
-int max(int a,int b) { 
-    return (a >= b) ? a : b; 
-}
+int min(int a,int b) { return (a <= b) ? a : b; }
+
+int max(int a,int b) { return (a >= b) ? a : b; }
 
 double pow (double n,int rec) {
-double prod = 1;
-for (int i = 0;i < rec;i++) {prod *= n;}
-return prod;
+    double prod = 1;
+    for (int i = 0; i < rec; ++i) prod *= n;
+    return prod;
 }
 
-// Rounding.
+// Rounding
 double round(double x) {
     if (x >= 0.0) {
         return static_cast<long long>(x + 0.5);
@@ -112,32 +52,22 @@ double round(double x) {
 
 double floor(double x) {
     double result = static_cast<long long>(x);
-    if (x < 0.0 && x != result) {
-        result -= 1.0;
-    }
+    if (x < 0.0 && x != result) result -= 1.0; 
     return result;
 }
 
 double ceil(double x) {
     double result = static_cast<long long>(x);
-    if (x > 0.0 && x != result) {
-        result += 1.0;
-    }
+    if (x > 0.0 && x != result) result += 1.0;
     return result;
 }
 
-double trunc(double x) {
-    return static_cast<long long>(x);
-}
+double trunc(double x) { return static_cast<long long>(x); }
 
+// Math functions
 unsigned long factorial(unsigned int n) {
-unsigned long result;
-if (n==0) {
-    result = 1;
-} else {
-    result = n * factorial(n-1);
-}
-return result;
+    unsigned long result = (n == 0) ? 1 : n * factorial(n-1);
+    return result;
 }
 
 double ln(double x) {
@@ -173,17 +103,9 @@ double ln(double x) {
     return 2.0 * sum + m * LN2;
 }
 
-int abs(int x) {
-    return (x > 0) ? x : -x;
-}
-
-double abs(double x) {
-    return (x > 0.0) ? x : -x;
-}
-
 bool isPrime(int n) { 
     bool flag = true;
-    for (int d = 2; d < sqrt(n); d++) {
+    for (int d = 2; d < sqrtNewton(n); d++) {
         if (n%d == 0) flag = false;
     }
     return flag;
@@ -224,27 +146,21 @@ double arctan(double x) {
 }
 
 double arctan2(double y, double x) {
-
-    // Сhecking that the value is defined 
     if (x == 0.0) {
-        if (y == 0.0) {
-            return 0.0;
-        }
+        if (y == 0.0) return 0.0;
         return (y > 0.0) ? PI_2 : -PI_2;
-    } 
+    }
 
     double ratio = y / x;
     double angle = arctan(ratio);
 
     if (x < 0.0) {
-        if (y >= 0.0) {
-            angle += PI;
-        } else {
-            angle -= PI;
-        }
+        if (y >= 0.0) angle += PI;
+        else angle -= PI;
     }
-
     return angle;
 }
 
-}
+} // namespace math 
+
+} // namespace algs
