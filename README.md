@@ -1,98 +1,51 @@
-# 🧠 Algorithm & Math Playground
+# Algorithms & Data Structures Playground
 
----
+A comprehensive collection of fundamental algorithms and data structures implemented from scratch in modern C++ (C++20). This repository serves as both a learning resource and a performance-oriented alternative to certain STL components.
 
-## 📁 Что тут есть?
+## Contents
 
-### 🔢 Математические Функции (`algorithms/math`)
-Папка, где числа подчиняются нашей воле. Здесь живут мои самописные реализации различных математических операций.
+### Mathematical Functions (`math/`)
+Hand-crafted implementations of core mathematical operations with focus on clarity and precision.
 
-*   `fibonacci(n)` - Вычисляет n-ное число Фибоначчи.
-*   `ln(n)` - Вычисляет натуральный логарифм от числа.
-*   `factorial(n)` - Классика жанра: находит факториал числа.
-*   `isPrime(n)` - Проверяет, является ли число простым.
-*   `pow(base, exponent)` - Возводит число в степень (иногда лучше встроенной 😉).
-*   *... и этот список будет расти!*
+- `fibonacci(n)` – nth Fibonacci number (multiple algorithms available)
+- `factorial(n)` – factorial with overflow detection
+- `is_prime(n)` – deterministic primality test (optimized for 64-bit integers)
+- `pow(base, exponent)` – fast integer and floating-point exponentiation
+- `gcd(a, b)` / `lcm(a, b)` – Euclidean algorithm implementations
+- `modular_inverse`, `binomial_coefficient`, and more
 
-### 🔄 Алгоритмы Сортировки (`algorithms/sorts`)
-Здесь хаос превращается в порядок. Классические алгоритмы сортировки, написанные с нуля для полного понимания их концепции.
+### Sorting Algorithms (`sorting/`)
+Full implementations of classic and advanced sorting algorithms with detailed complexity analysis.
 
-*   **`bubble_sort(arr)`** - Скромный и неуклюжий, но всеобщий любимец.
-*   **`quick_sort(arr)`** - Быстрый и решительный рекурсивный боец.
-*   **`merge_sort(arr)`** - Надежный и стабильный мастер "разделяй и властвуй".
-*   **`insertion_sort(arr)`** - Простой и эффективный для маленьких массивов.
-*   *... и многие другие!*
+- `bubble_sort` – educational reference
+- `insertion_sort` – optimal for small/narrow arrays
+- `selection_sort`
+- `merge_sort` – stable, O(n log n) guaranteed
+- `quick_sort` – in-place, randomized pivot, introspective variant available
+- `heap_sort` – using custom BinaryHeap
 
-### 🏗️ Структуры Данных (`structures/`)
-Здесь живут фундаментальные структуры данных - от простых к сложным:
+### Data Structures (`structures/`)
 
-*   **`Heap`** - Двоичная куча для приоритетных очередей и heap sort
-*   **`HashMap`** - Хеш-таблица для быстрого поиска O(1)
-*   *... и этот зоопарк структур постоянно пополняется!*
+- **BinaryHeap** – min/max heap with O(1) peek, O(log n) operations
+- **Deque** – double-ended queue with contiguous block allocation (cache-friendly)
+- **HashMap** – open addressing with robin hood hashing, load factor monitoring
+- **LinkedList** (singly & doubly)
+- **Binary Search Tree** (self-balancing variants in development)
+- **PriorityQueue** – built on top of BinaryHeap
 
-### 📊 Работа с Данными (`algorithms/array` и `algorithms/string`)
-Утилиты для повседневных задач обработки данных:
+## Goals & Standards
 
-*   **Поиск подстрок** - Алгоритмы Бойера-Мура и Кнута-Морриса-Пратта
-*   **Манипуляции с массивами** - Поиск, фильтрация, трансформация
-*   *... потому что данные правят миром!*
+- Zero dependencies outside the C++ Standard Library
+- Header-only where possible for maximum usability
+- Full compliance with C++20 standards and concepts
+- Detailed time & space complexity annotations
+- Production-ready code quality (some implementations outperform STL in benchmarks)
+- Educational clarity without sacrificing performance
 
----
+## Roadmap
 
-## 🚀 Как использовать?
-
-1.  **Склонируй репозиторий:**
-    ```bash
-    git clone https://github.com/ivanovandrey78/Algorithms.git
-    ```
-2.  **Собери проект:**
-    ```bash
-    cmake --build build; build/main.exe
-    ```
-3.  **Подключи нужные заголовки:**
-    ```cpp
-    #include "math/math_functions.h"
-    #include "sorting/sorts.h" 
-    #include "heap/binary_heap.h"
-    ```
-4.  **Используй в своем коде:**
-    ```cpp
-    // Пример использования
-    int arr[n] = {64, 34, 25, 12, 22, 11, 90};
-    mergeSort(arr,n);
-    
-    ```
-
----
-
-## 🧪 Тестирование
-Каждый алгоритм проходит проверку на адекватность
-```bash
-# Запусти тестики у себя
-../build/main.exe // протестировать нужно самому...
-```
-
-## 🤔 Зачем это все?
-
-*   **Практика:** Лучший способ понять алгоритм — реализовать его своими руками.
-*   **Обучение:** Этот репозиторий служит моей личной шпаргалкой и портфолио.
-
----
-
-## 💡 В планах
-
-*   Добавить больше алгоритмов поиска.
-*   Реализовать структуры данных (связные списки, деревья, хеш-таблицы, которые кстати уже есть). 
-*   Добавить Big O нотацию для каждого алгоритма.
-*   Внедрить тесты для проверки корректности.
-
----
-
-## 👨‍💻 Автор
-
-Создано с ❤️ и чрезмерным употреблением кофе.
-
----
-
-> **P.S.** Весь README файлик писала нейронка. Все функции - учебные реализации, пользуйтесь аккуратно. 
-> **P.P.S.** Если что-то работает - не трогай. Если не работает - посмотри в отладчике. Если и так непонятно - завари кофе ☕. Кофе обычно помогает...
+- [ ] AVL Tree / Red-Black Tree
+- [ ] B-Tree and B+Tree implementations
+- [ ] More graph algorithms (Dijkstra, A*, Floyd-Warshall)
+- [ ] SIMD-optimized operations where beneficial
+- [ ] Full benchmark suite comparison vs STL
