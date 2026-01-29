@@ -4,9 +4,7 @@ int* RandomMassive(int& n,int border) {
     std::cin >> n;
     int* arr = new int[n];
     srand(time(0));
-    for(int i = 0; i<n;i++) {
-        arr[i] = rand()%border+1;
-    }
+    for(int i = 0; i < n; ++i) { arr[i] = rand() % border + 1; }
     return arr; 
 }
 
