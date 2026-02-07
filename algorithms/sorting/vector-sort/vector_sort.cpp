@@ -138,7 +138,6 @@ void QuickSort(std::vector<T>& vec, PartitionType type) {
     struct Recursion {
         int low, high;
     };
-    // Используем явный стек вместо рекурсии (чтобы избежать переполнения на больших векторах)
     std::vector<Recursion> stack;
     stack.push_back({0, n - 1});
 
