@@ -3,8 +3,9 @@
 #include <queue>
 #include <vector>
 
-enum class Color { kGray, kWhite, kBlack };
+namespace {
 
+enum class Color { kGray, kWhite, kBlack };
 using IntGraph = std::vector<std::vector<int>>;
 
 inline void PaintWhite(Color* arr, size_t n) {
@@ -83,6 +84,55 @@ std::vector<int> BFS(const IntGraph& graph, int first_v) { // for k-length path
     return dist;
 }
 
-int DFS(IntGraph& graph) {
-    return 1;
+void DFS(const IntGraph& graph, int v, std::vector<Color>& color) {
+    color[v] = Color::kGray;
+    for (int u : graph[v]) {
+        if (color[u] == Color::kWhite) {
+            DFS(graph, u, color);
+        }
+    }
+    color[v] = Color::kBlack;
+}
+
+void TopSortDFS(const IntGraph& graph, int v,
+                std::vector<Color>& color,
+                std::vector<int>& order,
+                bool& has_cycle) {
+    color[v] = Color::kGray;
+
+    for (int u : graph[v]) {
+        if (color[u] == Color::kGray) {
+            has_cycle = true;
+            return;
+        }
+        if (color[u] == Color::kWhite) {
+            TopSortDFS(graph, u, color, order, has_cycle);
+            if (has_cycle) return;
+        }
+    }
+
+    color[v] = Color::kBlack;
+    order.push_back(v);
+}
+
+std::vector<int> TopologicalSort(const IntGraph& graph) {
+    int n = graph.size();
+    std::vector<Color> color(n, Color::kWhite);
+    std::vector<int> order;
+    bool has_cycle = false;
+
+    for (int v = 0; v < n; ++v) {
+        if (color[v] == Color::kWhite) {
+            TopSortDFS(graph, v, color, order, has_cycle);
+        }
+    }
+
+    if (has_cycle) {
+        return {};
+    }
+
+    std::reverse(order.begin(), order.end());
+    return order;
+}
+
 }
