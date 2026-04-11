@@ -93,8 +93,7 @@ bool IsHeap(int* arr, int size) {
 
 HeapType DetectHeapType(int* arr, int size) {
     if (size < 2) return HeapType::kMaxHeap;
-    
-    // Более надежное определение типа кучи
+
     int max_count = 0, min_count = 0;
     
     for (int i = 0; i < size / 2; i++) {
@@ -117,7 +116,7 @@ HeapType DetectHeapType(int* arr, int size) {
 void heapSort(int* arr, int size, HeapType type) {
     BuildHeap(arr, size, type);
     
-    for (int i = size - 1; i > 0; i--) {  // Исправлено: i > 0 вместо i >= 0
+    for (int i = size - 1; i > 0; i--) {
         std::swap(arr[0], arr[i]);
         SiftDown(arr, i, 0, type);
     }

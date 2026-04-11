@@ -7,6 +7,7 @@ namespace {
 
 enum class Color { kGray, kWhite, kBlack };
 using IntGraph = std::vector<std::vector<int>>;
+using WeightedGraph = std::vector<std::vector<std::pair<int, int>>>;
 
 inline void PaintWhite(Color* arr, size_t n) {
     for (int i = 0; i < n; ++i) {
@@ -133,6 +134,35 @@ std::vector<int> TopologicalSort(const IntGraph& graph) {
 
     std::reverse(order.begin(), order.end());
     return order;
+}
+
+std::pair<std::vector<int>, std::vector<int>> Dijkstra(const WeightedGraph& graph, int start) {
+    int n = graph.size();
+    std::vector<int> dist(n, INT32_MAX);
+    std::vector<int> parent(n, -1);
+
+    std::priority_queue<std::pair<int, int>,
+                        std::vector<std::pair<int, int>>,
+                        std::greater<std::pair<int, int>>> pq;
+
+    dist[start] = 0;
+    pq.push({0, start});
+
+    while (!pq.empty()) {
+        auto [d, v] = pq.top();
+        pq.pop();
+        if (d > dist[v]) {
+            continue;
+        }
+        for (auto [u, w] : graph[v]) {
+            if (dist[v] + w < dist[u]) {
+                dist[u] = dist[v] + w;
+                parent[u] = v;
+                pq.push({dist[u], u});
+            }
+        }
+    }
+    return {dist, parent};
 }
 
 }
