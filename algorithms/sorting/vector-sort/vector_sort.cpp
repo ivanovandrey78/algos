@@ -68,7 +68,7 @@ int PartitionRandomLomuto(std::vector<T>& vec, int low, int high) {
 
 // Public implementations
 template <typename T>
-void InsertSort(std::vector<T>& vec, int& comparison_count) {
+void InsertSort(std::vector<T>& vec, int* comparison_count) {
     comparison_count = 0;
     for (int i = 1; i < static_cast<int>(vec.size()); ++i) {
         T key = vec[i];

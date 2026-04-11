@@ -13,7 +13,7 @@ enum class PartitionType {
 
 // Vector-based Sorting Algorithms
 template <typename T>
-void InsertSort(std::vector<T>& vec, int& comparison_count);
+void InsertSort(std::vector<T>& vec, int* comparison_count);
 
 template <typename T>
 void BubbleSort(std::vector<T>& vec);
