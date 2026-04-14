@@ -1,6 +1,9 @@
 # IDE folders
 .vscode/
 
+# Compiler files
+.cache/
+
 # Binary & executable files
 *.exe
 *.dll

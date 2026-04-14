@@ -1,5 +1,4 @@
 #pragma once 
-#define STRING_FUNCTIONS_H
 
 #include <iostream>
 
